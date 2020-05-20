@@ -1,0 +1,204 @@
+\documentclass[11pt,letterpaper,spanish,openany]{article}
+\usepackage{pst-grad} % For gradients
+%usepackage{pst-plot} % For axes
+\usepackage{latexsym}
+\usepackage[activeacute,spanish]{babel}
+\usepackage{babel} 
+\usepackage[latin1]{inputenc}
+\usepackage{latexsym} 
+\usepackage{amsmath} 
+\usepackage{amsthm}
+\usepackage{amsfonts} 
+\usepackage[dvips]{epsfig}
+\usepackage{multirow}
+%\usepackage{indentfirst} 
+%\usepackage{color}
+%\usepackage{lastpage} 
+
+\usepackage[dvips]{epsfig}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+
+
+\usepackage{pstricks}
+\usepackage{pst-plot}
+\usepackage{multido}
+\usepackage[nomessages]{fp}
+
+\addtolength{\hoffset       }{-0.50in}
+\setlength  {\textwidth     }{+6.50in}
+\addtolength{\voffset       }{-0.50in}
+\setlength  {\headsep       }{+0.25in} 
+\setlength  {\textheight    }{+8.20in}
+\setlength  {\oddsidemargin }{+0.60in} 
+\setlength  {\evensidemargin}{+0.40in}
+
+
+
+
+
+\decimalpoint{}
+\fancyhead[R]{Dirección de Obras Portuarias} %Especifico\title
+\fancyhead[L]{Ministerio de Obras Públicas} %Especifico\title
+\pagestyle{fancy}
+\usepackage{hyperref} 
+\begin{document}
+
+
+
+
+
+
+\begin{center}
+\textbf{\LARGE{ Estudio de Oleaje Para Proyecto: \\ 
+\section{Metodología}
+ La propagación de oleaje se desarrolla con la metodología de la ``Transferencia Espectral del Oleaje''  como es mostrada en el libro ``Waves in Oceanic and Coastal Waves'' (L. H. Holthuijsen, 2007).
+
+\subsection{Función de Transferencia Espectral}
+En el texto de referencia se presenta la siguiente formulación para la generación de espectros de respuestas bidimensionales:
+
+$$ E_X(f,\theta)= \left[R(f,\theta)\right]\cdot E_x(f,\theta) $$
+
+En que:
+
+\begin{itemize}
+\item $E_X(f,\theta)$: Componente f, $\theta$ del espectro de respuesta.
+\item $R(f,\theta)$: Componente f, $\theta$ de la función de respuesta de amplitud. La condición puesta para ésta es que relacione de manera lineal la altura en el origen con la altura en el punto de respuesta.
+\item $E_x(f,\theta)$: Componente f, $\theta$ del espectro de origen.
+\end{itemize}
+\subsection{Implementación de la Transferencia espectral}
+Se ha implementado una metodología enfocada a la transferencia de los espectros de energía de oleaje de Olas Chile III desde aguas profundas hasta aguas someras de la siguiente manera.
+
+ \begin{itemize}
+\item  Los espectros de Olas Chile III corresponden a matrices con la siguiente discretización de frecuncias y direcciones:
+
+\tiny
+% \begin{tabular}{l*{25}{p{.1cm}}} \hline
+ \begin{tabular}{|p{1.1cm}|p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.1cm}p{.2cm}|} \hline
+&\multicolumn{24}{|c|}{Direcciones}\\
+%\cline{1-25}\\
+Períodos &270&255&240&225&210&195&180&165&150&135&120&105&90&75&60&45&30&15&0&345&330&315&300&285\\\hline
+23.92       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\
+21.79       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\
+19.80       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\
+
+17.99      &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\
+16.34       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\  
+14.86        &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\ 
+13.51         &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\    
+12.29       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\
+11.17        &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\                                      
+10.15         &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\                                     
+ 9.26          &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\                                    
+ 8.40       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\
+ 7.63       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\
+ 6.94       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\
+ 6.29       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\
+ 5.75       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\
+ 5.21       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\
+ 4.74       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\
+ 4.31       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\
+ 3.92       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\
+ 3.56       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\
+ 3.24       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\
+ 2.94       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\
+ 2.67       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\
+ 2.43       &$\bullet$ &$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$&$\bullet$\\ \hline
+ \end{tabular}\\
+\normalsize
+\item Para cada uno de los puntos del espectro que generan olas suceptibles de llegar a costas chilenas,  se realizan propagaciones de oleaje con ola unitaria por medio del modelo SWAN, de los cuales se obtiene la altura y la dirección en el punto de interés.
+\item Se generan sendas matrices de transferencia para direcciones y alturas para los puntos de respuesta. Las matrices tienen la siguiente forma:
+\begin{itemize}
+\item Matriz de transferencia de alturas:
+$$\left[ H_{i,j}^2 \right]$$
+Con $H_{i,j}$ como resultado de Alturas de la propagación para el caso de frecuencia i y dirección j
+\item Matriz de transferencia de direcciones:
+$$\left[ D_{i,j} \right]$$
+Con $D_{i,j}$ como resultado de dirección de la propagación para el caso de frecuencia i y dirección j
+\end{itemize}
+\item Para el tratamiento de las alturas cada uno de los puntos de cada uno de los espectros de Olas Chile III es multiplicado, en forma de arreglo, por la matriz de transferencia de alturas. 
+\item Para el tratamiento de las direcciones, cada uno de los puntos de cada uno de los espectros de Olas Chile III es ubicado en la dirección que entrega la matriz de transferencia de direcciones.
+\item Con estas transformaciones son generados los espectros en el punto de interés.
+\item De los espectros en los puntos de interés son obtenidos los siguientes parámetros de resumen:
+\begin{itemize}
+\item $H_s=4\cdot \sqrt{\int{\int{E(\omega,\theta)}d\omega }d\theta}$
+\item $MWD=\frac{\int{\theta \left( \int{ E(\omega, \theta) }d\omega \right) d\theta}}{ \int{\int{E(\omega,\theta)}d\omega }d\theta}$
+\item $MWP=2 \cdot \pi \cdot \frac{\int{\int{E(\omega,\theta)}d\omega }d\theta}{\int{\omega \left( \int{ E(\omega, \theta) }d\theta \right) d\omega}}$
+\item $T_p$ : El período pido del espectro es obtenido por  interpolación cuadrática en torno al punto de mayor energía del espectro.
+\end{itemize}
+\end{itemize}
+\newpage
+
+
+\section{Oleaje de Aguas Profundas}
+
+El nodo de aguas profundas utilizado en la propagación es el correspondiente a la zona de Constitución.
+
+Se adjunta imagen con la ubicación del nodo.
+\begin{center}
+\includegraphics[width=13cm,angle=0]{./imagenes/nodo_dw.eps} \\
+{\footnotesize {\textbf Nodos de Aguas Profundas}}
+\end{center}
+\newpage
+\input{nododw.tex}
+
+
+
+
+
+
+\section{Propagación de Oleaje}
+La modelación fue realizada por medio del modelo SWAN, modelo espectral de propagación de oleaje que permite reproducir refracción, asomeramiento, difracción y reflexión. Por otra parte esta herramienta permite el uso de malla no estructurada (unstructured mesh), lo que permite una discretización más fina de la malla a medida que se aproxima a la zona de interés. 
+
+La documentación completa del modelo, así como su código, ejecutables y referencias generales acerca del modelo SWAN se encuentran en el sitio: ``http://vlm089.citg.tudelft.nl/swan/index.htm ''
+
+Se han realizado las propagaciones de oleaje espectral desde aguas profundas hasta la costa.
+\newpage
+\subsection{Batimetría}
+Se presenta la batimetría utilizada para la propagación:
+\vspace{.5cm}
+\begin{center}
+\includegraphics[width=10cm,angle=0]{./imagenes/batimetria_general.eps} \\
+{\footnotesize {\textbf Batimetría General}}
+\end{center}
+\newpage
+\vspace{.5cm}
+\begin{center}
+\includegraphics[width=10cm,angle=0]{./imagenes/batimetria_detalle.eps} \\
+{\footnotesize {\textbf Batimetría Detalle}}
+\end{center}
+
+
+\newpage
+\subsection{Malla}
+Se presenta la malla utilizada para la propagación:
+\vspace{.5cm}
+\begin{center}
+\includegraphics[width=10cm,angle=0]{./imagenes/malla_general.eps} \\
+{\footnotesize {\textbf Malla General}}
+\end{center}
+\vspace{.5cm}
+\begin{center}
+\includegraphics[width=10cm,angle=0]{./imagenes/malla_detalle.eps} \\
+{\footnotesize {\textbf Malla Detalle}}
+\end{center}
+\newpage
+
+\section{Resultados}
+Como producto de la modelación han sido obtenidos resultados en tres lineas ``continuas'' a lo largo de los veriles 30, 20, 15 y 10. Obteniéndose para estos punto la estadística de oleaje para aguas someras para los 21 años en estados de mar cada 3 horas en forma espectral, los cuales se encuentran a disposición en caso de ser requeridos. 
+
+Dada la naturaleza y el enfoque del estudio se ha considerado suficiente la entrega de resultados de 6 puntos ubicados en el veril -20 mt. en los que se ha hecho la recopilación de los resultados, los cuales son presentados a continuación en la siguiente figura.
+los cuales corresponden con las siguientes coordenadas.
+
+\begin{center}
+\includegraphics[width=13cm,angle=0]{./imagenes/mapa_nodos.eps} \\
+{\footnotesize {\textbf Malla Detalle}}
+\end{center}
+
+
+Las coordenadas de los puntos se presentan en la siguiente tabla.
+\begin{center}
+  
+\vspace{.4cm}
+ \begin{tabular}{|c|c|c|c|} \hline
+\textbf{Nodo} &\textbf{Coor. X}&\textbf{Coor. Y}& \textbf{Cota}\\\hline

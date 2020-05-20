@@ -1,0 +1,45 @@
+\decimalpoint{}
+\fancyhead[L]{}
+\fancyhead[R]{\textbf{Ministerio de Obras Públicas - Dirección de Obras Portuarias}\\\titulong} %Especifico\title
+%\headrulewidth 0.4cm
+\fancyfoot[R]{\textbf{Ministerio de Obras Públicas - Dirección de Obras Portuarias}\\} %Especifico\title
+\fancyfoot[L]{\titushort } %Especifico\title
+\rfoot{\slshape \thepage}
+\cfoot{}
+\pagestyle{fancy}
+\usepackage{hyperref} 
+\begin{document}
+
+\newdateformat{mydate}{\monthname \, \THEYEAR}
+
+%PORTADA
+\title{\titulong}
+\shortdate
+\date{\mydate\today}
+\makeatletter
+\begin{center}
+  
+\vspace{1cm}
+
+\includegraphics[width=10cm,angle=0]{./imagenes/blanco_logo.eps} \\
+
+\vspace{2cm}
+\Huge{DIVISIÓN DE PROYECTOS}
+%\thispagestyle{\rfoot{}}
+
+\vspace{2cm}
+\textbf{\LARGE{ 
+Informe de Oleaje para la Consultor\'ia ``\titulong'',\\ \region\\ \@date 
+}}
+
+\rfoot{}
+\end{center}
+\newpage
+
+\rfoot{\slshape \thepage}
+
+\begin{center}
+\textbf{\LARGE{ Informe de Oleaje para la Consultor\'ia ``\titulong'', \region}}
+
+\end{center}
+
