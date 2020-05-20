@@ -1,0 +1,303 @@
+#! /bin/tcsh
+#EL SCRIPT GENERA LAS FIGURAS Y ORDENA LAS CARPETAS NECESARIAS PARA LA GENERACIÓN DEL INFORME
+
+echo "FIGURADOR "	
+#####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
+# FIGURAS GENERALES
+#####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
+cd imagenes
+mkdir proceso
+ cp nodo_dw.jpg mapa_nodos.jpg batimetria_detalle.jpg batimetria_general.jpg malla_detalle.jpg malla_general.jpg proceso/
+cd proceso
+#Se convierten a eps y se llevan a la carpeta de destino
+    convertfoldeps
+    cp *.eps ..    
+cd ..
+rm -r proceso
+#####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
+# NODOS
+#####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
+echo '#####################################################'
+echo 'SE GENERAN ARCHIVOS DE NODOS'
+echo 'Imagenes' 
+echo 'Tex' 
+echo '#####################################################'
+echo $PWD
+foreach f ( * )
+# Este if pregunta si la ruta corresponde a un directorio.
+ if (-d $f) then
+    echo '- PROSESANDO' $f
+###########################################################################################################################################################
+###########################################################################################################################################################
+##   SE GENERAN IMAGENES DE LOS NODOS CON EL FORMATO REQUERIDO PARA EL TEX
+###########################################################################################################################################################
+###########################################################################################################################################################
+echo '    - Imagen'
+    cd $f
+    ls *.png
+    mkdir ./imagenes/
+    cp *.png ./imagenes/
+    cd ./imagenes
+    convertfoldeps
+    rm *.png
+    
+    cd ../..
+
+
+
+
+###########################################################################################################################################################
+###########################################################################################################################################################
+##   SE GENERAN LOS ARCHIVOS TEX PARA CADA UNO DE LOS NODOS INCLUIDOS AL INTERIOR DE LA CARPETA IMAGENES
+###########################################################################################################################################################
+###########################################################################################################################################################
+echo '    - Tex'
+set     nfiletex=$f".tex"
+     cd ..
+
+
+set      numnodo=`echo $f|awk '{print substr($0,5,5)}'`     
+set      numnodo=$f
+echo $numnodo
+
+echo '%  '$f'.tex' > $nfiletex
+
+if ($f != "nododw") then
+   echo "Entro con " $f
+echo "========================================"
+echo "========================================"
+   echo "Entro con " $f
+   echo '\subsection{Nodo '$numnodo'}' >> $nfiletex
+else
+   echo '\subsection{Nodo Aguas Profundas}' >> $nfiletex
+endif
+echo '' >> $nfiletex
+#\input{nodo9986.tex}
+#echo '\subsubsection{Probabilidad de Excedencia en Altura Significativa(m vs \%) }\\' >> $nfiletex
+#echo '\\vspace{.5cm}' >> $nfiletex
+#echo '\\begin{center}' >> $nfiletex
+#echo '\\advance\\leftskip-3cm' >> $nfiletex
+#echo '\includegraphics[width=22cm,angle=0]{./imagenes/'$f'/imagenes/prob_exce_hs.eps} \\\\' >> $nfiletex
+#echo '{\\footnotesize {\\textbf Probabilidad de Excedencia Hmo}}' >> $nfiletex
+#echo '\\end{center}' >> $nfiletex
+#echo '\\newpage' >> $nfiletex
+#echo '' >> $nfiletex
+#echo "\subsubsection{Probabilidad de Excedencia en Per\'iodo (s vs \%) }\\" >> $nfiletex
+#echo '\\vspace{.5cm}' >> $nfiletex
+#echo '\\begin{center}' >> $nfiletex
+#echo '\\advance\\leftskip-3cm' >> $nfiletex
+#echo '\includegraphics[width=22cm,angle=0]{./imagenes/'$f'/imagenes/prob_exce_tp.eps} \\\\' >> $nfiletex
+#echo '{\\footnotesize {\\textbf Probabilidad de Excedencia tp}}' >> $nfiletex
+#echo '\\end{center}' >> $nfiletex
+#echo '\\newpage' >> $nfiletex
+#echo '' >> $nfiletex
+#echo "\subsubsection{Rosa de Puntos Altura Significativa (m)}\\" >> $nfiletex
+#echo '\\vspace{.5cm}' >> $nfiletex
+#echo '\\begin{center}' >> $nfiletex
+#echo '\includegraphics[width=15cm,angle=0]{./imagenes/'$f'/imagenes/rosa_hs.eps} \\\\' >> $nfiletex
+#echo '{\\footnotesize {\\textbf Rosa de Puntos Hmo}}' >> $nfiletex
+#echo '\\end{center}' >> $nfiletex
+#echo '' >> $nfiletex
+#echo '\\newpage' >> $nfiletex
+#echo "\subsubsection{Rosa de Puntos Per\'iodo (s)}\\" >> $nfiletex
+#echo '\\vspace{.5cm}' >> $nfiletex
+#echo '\\begin{center}' >> $nfiletex
+#echo '\includegraphics[width=15cm,angle=0]{./imagenes/'$f'/imagenes/rosa_tp.eps} \\\\' >> $nfiletex
+#echo '{\\footnotesize {\\textbf Rosa de Tp}}' >> $nfiletex
+#echo '\\end{center}' >> $nfiletex
+#echo '' >> $nfiletex
+#echo '\\newpage' >> $nfiletex
+#echo "\subsubsection{Rosa de Oleaje (\\%)}\\" >> $nfiletex
+#echo '\\vspace{.5cm}' >> $nfiletex
+#echo '\\begin{center}' >> $nfiletex
+#echo '\includegraphics[width=15cm,angle=0]{./imagenes/'$f'/imagenes/rosa_oleaje.eps} \\\\' >> $nfiletex
+#echo '{\\footnotesize {\\textbf Rosa de Oleaje}}' >> $nfiletex
+#echo '\\end{center}' >> $nfiletex
+#echo '\\newpage' >> $nfiletex
+#echo '' >> $nfiletex
+#     echo '.step2'
+#echo "\subsubsection{Probabilidad Conjunta Direcci\'on"' - Altura Significativa ($^o$ - m)}\\' >> $nfiletex
+#     echo '.step2'
+#echo '\\vspace{.5cm}' >> $nfiletex
+#echo '\\begin{center}' >> $nfiletex
+#echo '\\advance\\leftskip-3cm' >> $nfiletex
+#echo '\includegraphics[width=22cm,angle=0]{./imagenes/'$f'/imagenes/prob_conj_d_hs.eps} \\\\' >> $nfiletex
+#echo '{\\footnotesize {\\textbf D($^o$)  - Hmo (m)}}' >> $nfiletex
+#echo '\\end{center}' >> $nfiletex
+#echo '\\newpage' >> $nfiletex
+#echo '' >> $nfiletex
+#echo "\subsubsection{Probabilidad Conjunta Direcci\'on - Per\'iodo"' ($^o$ - s)}\\' >> $nfiletex
+#echo '\\vspace{.5cm}' >> $nfiletex
+#echo '\\begin{center}' >> $nfiletex
+#echo '\\advance\\leftskip-3cm' >> $nfiletex
+#echo '\includegraphics[width=22cm,angle=0]{./imagenes/'$f'/imagenes/prob_conj_d_tp.eps} \\\\' >> $nfiletex
+#echo '{\\footnotesize {\\textbf D($^o$)  - tp (s)}}' >> $nfiletex
+#echo '\\end{center}' >> $nfiletex
+#echo '\\newpage' >> $nfiletex
+#echo '' >> $nfiletex
+#echo "\subsubsection{Probabilidad Conjunta Altura Significativa -Per\'iodo (m - s)}\\" >> $nfiletex
+#echo '\\vspace{.5cm}' >> $nfiletex
+#echo '\\begin{center}' >> $nfiletex
+#echo '\\advance\\leftskip-3cm' >> $nfiletex
+#echo '\includegraphics[width=22cm,angle=0]{./imagenes/'$f'/imagenes/prob_conj_hs_tp.eps} \\\\' >> $nfiletex
+#echo '{\\footnotesize {\\textbf Hmo (m) - tp (s)}}' >> $nfiletex
+#echo '\\end{center}' >> $nfiletex
+#echo '\\newpage' >> $nfiletex
+#echo '' >> $nfiletex
+#
+
+
+
+echo '\\begin{figure}[h]' >> $nfiletex
+echo '\\centering' >> $nfiletex
+echo '\\subfloat[\\footnotesize {\\textbf Hmo}]{\\includegraphics[width=7cm,angle=0]{./imagenes/'$f'/imagenes/prob_exce_hs.eps}\\label{fig:n'$f'i1}}' >> $nfiletex
+echo '\\subfloat[\\footnotesize {\\textbf Tp}]{\\includegraphics[width=7cm,angle=0]{./imagenes/'$f'/imagenes/prob_exce_tp.eps}\\label{fig:n'$f'i2}}' >> $nfiletex
+echo '\\caption{\\footnotesize {\\textbf Probabilidad de Excedencia Nodo '$f'}}' >> $nfiletex
+echo '\\end{figure} ' >> $nfiletex
+echo '' >> $nfiletex
+echo '' >> $nfiletex
+echo '' >> $nfiletex
+echo '\\vspace{.5cm}' >> $nfiletex
+echo '\\begin{figure}[h]' >> $nfiletex
+echo '\\centering' >> $nfiletex
+echo '\\subfloat[\\footnotesize {\\textbf Rosa de Puntos Hmo}]{\\includegraphics[width=8cm,angle=0]{./imagenes/'$f'/imagenes/rosa_hs.eps} \\label{fig:n'$f'i3}}' >> $nfiletex
+echo '\\subfloat[\\footnotesize {\\textbf Rosa de Tp}]{\\includegraphics[width=8cm,angle=0]{./imagenes/'$f'/imagenes/rosa_tp.eps} \\label{fig:n'$f'i4}}\\\\' >> $nfiletex
+echo '\\subfloat[\\footnotesize {\\textbf Rosa de Oleaje}]{\\includegraphics[width=8cm,angle=0]{./imagenes/'$f'/imagenes/rosa_oleaje.eps} \\label{fig:n'$f'i5}}' >> $nfiletex
+echo '\\caption{\\footnotesize {\\textbf Rosas }}' >> $nfiletex
+echo '\\end{figure} ' >> $nfiletex
+echo '' >> $nfiletex
+echo '' >> $nfiletex
+echo '' >> $nfiletex
+echo '' >> $nfiletex
+echo '\\vspace{.5cm}' >> $nfiletex
+echo '\\begin{table}[h]' >> $nfiletex
+echo '\\begin{center}' >> $nfiletex
+echo '%\\advance\\leftskip-3cm' >> $nfiletex
+echo '{\\tiny' >> $nfiletex
+echo '\\input{./imagenes/'$f'/prob_conj_d_hs.tex} \\\\' >> $nfiletex
+echo '}' >> $nfiletex
+echo '\\caption{\\footnotesize {\\textbf Probabilidad Conjunta D($^o$)  - Hmo (m) - Nodo '$f'}}' >> $nfiletex
+echo '\\label{tab:n'$f'i1}' >> $nfiletex
+echo '\\end{center}' >> $nfiletex
+echo '\\end{table} ' >> $nfiletex
+echo '' >> $nfiletex
+echo '\\vspace{.5cm}' >> $nfiletex
+echo '\\begin{table}[h]' >> $nfiletex
+echo '\\begin{center}' >> $nfiletex
+echo '{\\tiny' >> $nfiletex
+echo '%\\input{./imagenes/'$f'/prob_conj_d_tp.tex} \\\\' >> $nfiletex
+echo '\\input{./imagenes/'$f'/prob_conj_tp_hs.tex} \\\\' >> $nfiletex
+echo '}' >> $nfiletex
+echo '\\caption{\\footnotesize {\\textbf Probabilidad Conjunta  D($^o$)  - tp (s) - Nodo '$f'}}' >> $nfiletex
+echo '\\label{tab:n'$f'i2}' >> $nfiletex
+echo '\\end{center}' >> $nfiletex
+echo '\\end{table} ' >> $nfiletex
+echo '' >> $nfiletex
+echo '\\vspace{.5cm}' >> $nfiletex
+echo '\\begin{table}[h]' >> $nfiletex
+echo '\\begin{center}' >> $nfiletex
+echo '%\\advance\\leftskip-3cm' >> $nfiletex
+echo '{\\tiny' >> $nfiletex
+echo '\\input{./imagenes/'$f'/prob_conj_tp_hs.tex} \\\\' >> $nfiletex
+echo '}' >> $nfiletex
+echo '\\caption{\\footnotesize {\\textbf Probabilidad Conjunta Hmo (m) - tp (s) - Nodo '$f'}}' >> $nfiletex
+echo '\\label{tab:n'$f'i3}' >> $nfiletex
+echo '\\end{center}' >> $nfiletex
+echo '\\end{table} ' >> $nfiletex
+echo '' >> $nfiletex
+echo '' >> $nfiletex
+echo '\\begin{figure}[h]' >> $nfiletex
+echo '\\centering' >> $nfiletex
+echo '\\includegraphics[width=12cm,angle=0]{./imagenes/'$f'/analisis_extremal.eps} \\\\' >> $nfiletex
+echo '\\caption{\\footnotesize {\\textbf Análisis Extremal }}' >> $nfiletex
+echo '\\label{fig:n'$f'i6}' >> $nfiletex
+echo '\\end{figure} ' >> $nfiletex
+echo '\\FloatBarrier' >> $nfiletex
+echo '' >> $nfiletex
+echo '\\newpage' >> $nfiletex
+echo '\\begin{table}[h]' >> $nfiletex
+echo '\\begin{center}' >> $nfiletex
+echo '\\input{imagenes/'$f'/matriz_ka.tex}' >> $nfiletex
+echo '\\caption{\\footnotesize {\\textbf Matriz de Transformación de Altura}}' >> $nfiletex
+echo '\\label{tab:n'$f'i4}' >> $nfiletex
+echo '\\end{center}' >> $nfiletex
+echo '\\end{table}' >> $nfiletex
+echo '\\vspace{2cm}' >> $nfiletex
+echo '\\begin{table}[h]' >> $nfiletex
+echo '\\begin{center}' >> $nfiletex
+echo '\\input{imagenes/'$f'/matriz_kdir.tex}' >> $nfiletex
+echo '\\caption{\\footnotesize {\\textbf Matriz de Transformación de Dirección}}' >> $nfiletex
+echo '\\label{tab:n'$f'i6}' >> $nfiletex
+echo '\\end{center}' >> $nfiletex
+echo '\\end{table}' >> $nfiletex
+echo '' >> $nfiletex
+echo '\\newpage' >> $nfiletex
+
+utf2iso $nfiletex
+
+
+
+
+
+
+
+
+
+
+if ($f != 'nododw') then
+#   echo "\subsubsection{Coeficientes de Agitaci\'on para Direcciones Propagadas (ks vs Tp (seg))}\\" >> $nfiletex
+#   echo '\\vspace{.5cm}' >> $nfiletex
+#   echo '\\begin{center}' >> $nfiletex
+#   echo '\\advance\\leftskip-3cm' >> $nfiletex
+#   echo '\includegraphics[width=22cm,angle=0]{./imagenes/'$f'/imagenes/matriz_transformacion_ka.eps} \\\\' >> $nfiletex
+#   echo '{\\footnotesize {\\textbf Hmo (m) - tp (s)}}' >> $nfiletex
+#   echo '\\newpage' >> $nfiletex
+#   echo '\\end{center}' >> $nfiletex
+#   echo "\subsubsection{Coeficientes de Direcci/'on  para Direcciones Propagadas (ks vs Tp (seg))}\\" >> $nfiletex
+#   echo '\\vspace{.5cm}' >> $nfiletex
+#   echo '\\begin{center}' >> $nfiletex
+#   echo '\\advance\\leftskip-3cm' >> $nfiletex
+#   echo '\includegraphics[width=22cm,angle=0]{./imagenes/'$f'/imagenes/matriz_transformacion_kdir.eps} \\\\' >> $nfiletex
+#   echo '{\\footnotesize {\\textbf Hmo (m) - tp (s)}}' >> $nfiletex
+#   echo '\\end{center}' >> $nfiletex
+#   echo '\\newpage' >> $nfiletex
+   
+#   
+#   echo "\\input{imagenes/"$f"/matriz_ka.tex}" >> $nfiletex
+#   echo '\\vspace{2cm}' >> $nfiletex
+#   echo "\\input{imagenes/"$f"/matriz_kdir.tex}" >> $nfiletex
+#   echo '\\newpage' >> $nfiletex
+   cd  ./imagenes
+   cd  $f
+  set yutm=`awk '{print $2}' ubicacion_nodo.txt`     
+  set xutm_depth=`awk '{print $1}' ubicacion_nodo.txt`   
+ set xutm=$xutm_depth[1]
+ set depth=$xutm_depth[2]
+    	 
+ 
+ echo $f'\t' $xutm '\t'   $yutm '\t' $depth  >> ../../pos_nodo_ana.txt
+# SE VUELVE AL ARCHIVO DE IMAGENES PARA EL SIGUIENTE PASO
+  matrizador3 
+  cd ..
+  echo $PWD
+
+  endif
+
+
+
+
+
+ endif
+end
