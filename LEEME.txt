@@ -1,0 +1,9 @@
+20160330 
+PROGRAMA DESTIADO A GENERAR DE MANERA AUTOMÁTICA INFORMES DE OLEAJE.
+
+	1- INFORMADOR: Programa principal. Srcip de bash que llama a las otras rutinas y hace la manipulación general de archivos.
+	2- FIGURADOR: script tcsh
+		el script genera las figuras y ordena las carpetas necesarias para la generación del informe
+	3- ARMADOR: script perl
+		se concatenan los diferentes archivos que componen el informe
+
